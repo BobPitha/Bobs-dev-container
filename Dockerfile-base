@@ -1,0 +1,55 @@
+ARG FROM_IMAGE
+FROM ${FROM_IMAGE}
+
+# install basic system packages
+ARG SERVER_USER
+COPY ./docker/assets/dev/system/sbin/ /sbin
+RUN chmod 755 /sbin/docker-*
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        apt-utils \
+        apt \
+        software-properties-common
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        autoconf \
+        automake \
+        build-essential \
+        ca-certificates \
+        coinor-clp \
+        dialog \
+        gnupg \
+        iproute2 \
+        libxkbcommon0 \
+        libgbm1 \
+        libtool \
+        make \
+        net-tools \
+        pkg-config \
+        perl \
+        ssh \
+        systemd \
+        systemd-sysv \
+        tzdata \
+        wget
+
+# Setup the server user
+RUN mkdir /opt >/dev/null 2>&1 || true \
+    && useradd -m ${SERVER_USER} -G dialout,video,plugdev -p ${SERVER_USER} -s /bin/bash \
+    && echo "${SERVER_USER}:${SERVER_USER}" | chpasswd
+WORKDIR /opt
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        debconf-utils
+COPY ./docker/assets/selections.conf /opt
+RUN debconf-set-selections < /opt/selections.conf \
+    && apt-get install -y --no-install-recommends \
+        keyboard-configuration
+
+# clean up
+RUN apt-get -y autoremove \
+    && apt-get clean autoclean \
+    && rm -fr /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
