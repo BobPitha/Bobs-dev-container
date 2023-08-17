@@ -92,6 +92,7 @@ if [[ -z "${running_container_id}" ]]; then
         --network host \
         --name ${CONTAINER_NAME} \
         --hostname ${CONTAINER_NAME} \
+        --add-host ${CONTAINER_NAME}:127.0.0.1 \
         --env="DISPLAY" \
         --env="XAUTHORITY=${XAUTH}" \
         --env="QT_X11_NO_MITSHM=1" \
