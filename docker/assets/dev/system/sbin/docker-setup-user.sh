@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
-# Do Tthis first to set uthe gruop ID properly manually (setting the ownership first won't work)
-groupid -g $HOST_GID $SERVER_GROUP
+# Do this first to set the group ID manually (setting the ownership first won't work)
+groupmod -g $HOST_GID $SERVER_GROUP
 
 # Now set the ownership by name recursively
 chown -R "$SERVER_USER:$SERVER_GROUP" /home/$SERVER_USER/

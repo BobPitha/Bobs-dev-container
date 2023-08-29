@@ -32,7 +32,6 @@ RUN apt-get update \
         ssh \
         systemd \
         systemd-sysv \
-        tzdata \
         wget
 
 # Setup the server user
