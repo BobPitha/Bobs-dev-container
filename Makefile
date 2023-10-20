@@ -14,26 +14,10 @@ DOCKER_RUN_USER_ARGS := ${DOCKER_RUN_USER_ARGS} $\
 			--volume=${HOME}/.ssh:/home/${SERVER_USER}/.ssh
 WORKSPACE_PATH := ${REPOSITORY_ROOT}/workspace
 
-test:
-	@echo "This is a test"
-	@echo "Organization: ${ORGANIZATION}"
-	@echo "Project: ${PROJECT}"
-	@echo "Image: ${DOCKER_IMAGE_TAG_ROOT}"
-	@echo "Container: ${DOCKER_CONTAINER_NAME_ROOT}"
-	@echo "Is git dir: ${IS_GIT_DIR}"
-	@echo "Repo: ${REPOSITORY_ROOT}"
-	@echo "Version: ${VERSION}"
-
-build:
-	@echo "******"
-	@echo "******"
-	@echo "****** 'make build' is deprecated; please use 'make dev' instead."
-	@echo "******"
-	@echo "******"
-
+build: dev
 
 base:
-	bin/banner Docker *BASE* build ${DOCKER_IMAGE_TAG_ROOT}
+	bin/banner Docker *BASE* build ${DOCKER_IMAGE_TAG_ROOT}:v{VERSION}
 	docker build \
 	    --network=host \
         -t ${DOCKER_IMAGE_TAG_ROOT}-base:v${VERSION} \
@@ -43,7 +27,7 @@ base:
         ${CACHE_OPTION} -f Dockerfile-base .
 
 dev: base
-	bin/banner Docker *DEVELOPMENT* build ${DOCKER_IMAGE_TAG_ROOT}
+	bin/banner Docker *DEVELOPMENT* build ${DOCKER_IMAGE_TAG_ROOT}:v{VERSION}
 	docker build \
 	 	--network=host \
         -t ${DOCKER_IMAGE_TAG_ROOT}-dev:v${VERSION} \

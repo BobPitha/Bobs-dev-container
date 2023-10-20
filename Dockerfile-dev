@@ -5,7 +5,6 @@ WORKDIR /opt
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         coinor-libclp-dev \
-        curl \
         feh \
         influxdb-client \
         less \
@@ -18,16 +17,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         openssh-client \
         openssl \
         python3 \
+        python3-dev \
         python3-pip \
         rsync \
+        udev \
         unzip \
         vim \
         zlib1g-dev \
     && pkg-config --cflags --libs clp
-
-ENV TZ=America/New_York
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get update && apt-get install -y --no-install-recommends tzdata
 
 # user setup
 ARG SERVER_USER
