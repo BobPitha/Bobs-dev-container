@@ -1,4 +1,5 @@
-# Bobs-dev-container
+# RX200-ROS1
+## Intro
 A Docker-based development environment I've found useful
 
 This is a basic environment I've used for a few projects. It incorporates ideas and approaches from various past colleagues, most notably
@@ -22,3 +23,8 @@ Dependencies: you need Docker (obviously), make, probably other things.
 This is obviously a work in progress, but it's very useable as it is now.
 
 Talk to Bob in you have any comments, questions, or suggstions.
+
+## RX-200 Stuff
+This installs ROS1 and the Interbotix software for the Trossen RX-200 arm. 
+
+If you want to actually work with the Trossen arm, you need to have access to the USB port. That can be a bit of an adventure if you're running your docker under WSL. If things are configured properly, when you have the arm connected to a USB port on your system, you should see a device named /etc/ttyDXL.

@@ -69,7 +69,41 @@ RUN mkdir -p /workspace && \
 # home dir setup
 COPY ./docker/assets/dev/user /home/${SERVER_USER}
 RUN mkdir /home/${SERVER_USER}/bin \
-    && echo "PATH=/home/go/bin:${PATH}" >> /home/${SERVER_USER}/.bashrc
+    && echo "PATH=/home/${SERVER_USER}/bin:${PATH}" >> /home/${SERVER_USER}/.bashrc
+
+# ------------------------------------------------------ 
+# ROS 
+# ------------------------------------------------------ 
+RUN echo "source /opt/ros/noetic/setup.bash" >> /home/${SERVER_USER}/.bashrc \ 
+    && apt-get update \ 
+    && apt-get install -y --no-install-recommends \ 
+        python3-rosdep \ 
+        python3-rosinstall \ 
+        python3-rosinstall-generator \ 
+        python3-wstool \ 
+        build-essential
+
+# RX-200 stuff 
+RUN apt-get update \ 
+    && apt-get install -y --no-install-recommends \ 
+        # python3-rosdep2 \ 
+        apt-file 
+ 
+RUN rosdep init \ 
+    && rosdep update \ 
+    && apt-get update \ 
+    && apt-get install -y --no-install-recommends \ 
+        ros-noetic-dynamixel-sdk \ 
+        ros-noetic-moveit \ 
+        ros-noetic-moveit-visual-tools \ 
+        ros-noetic-apriltag-ros \ 
+        ros-noetic-joy \ 
+        ros-noetic-joint-trajectory-controller \ 
+        ros-noetic-realsense2-camera \ 
+        ros-noetic-effort-controllers \ 
+    && curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh \ 
+    && chmod +x xsarm_amd64_install.sh \
+    && ./xsarm_amd64_install.sh -d noetic -n  -p /opt/interbotix_ws
 
 ## development tools: comment/uncomment as appropriate
 ##

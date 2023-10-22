@@ -5,7 +5,7 @@ VERSION_LONG := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse HEAD ; els
 
 DOCKER_ROOT_IMAGE := ubuntu:focal
 ORGANIZATION := ma
-PROJECT := bobsdevcontainer
+PROJECT := rx200-ros1
 DOCKER_IMAGE_TAG_ROOT := ${ORGANIZATION}/${PROJECT}_img
 DOCKER_CONTAINER_NAME_ROOT := ${PROJECT}
 SERVER_USER := ma
@@ -37,7 +37,9 @@ dev: base
  		${CACHE_OPTION} -f Dockerfile-dev .
 
 shell:
+	@echo ${REPOSITORY_ROOT}/bin/docker-start.sh ${DOCKER_IMAGE_TAG_ROOT}-dev:v${VERSION} ${DOCKER_CONTAINER_NAME_ROOT} "${DOCKER_RUN_USER_ARGS}" "${WORKSPACE_PATH}"
 	@${REPOSITORY_ROOT}/bin/docker-start.sh ${DOCKER_IMAGE_TAG_ROOT}-dev:v${VERSION} ${DOCKER_CONTAINER_NAME_ROOT} "${DOCKER_RUN_USER_ARGS}" "${WORKSPACE_PATH}"
+	@echo ${REPOSITORY_ROOT}/bin/docker-shell.sh ${DOCKER_CONTAINER_NAME_ROOT} ${SERVER_USER} || true
 	@${REPOSITORY_ROOT}/bin/docker-shell.sh ${DOCKER_CONTAINER_NAME_ROOT} ${SERVER_USER} || true
 
 stop:
