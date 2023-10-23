@@ -3,6 +3,8 @@ FROM ${FROM_IMAGE}
 
 WORKDIR /opt
 
+RUN yes | unminimize
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         coinor-libclp-dev \
         feh \
@@ -45,6 +47,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     git-core \
     git-man \
+    man-db \
+    meld \
     netcat \
     nano \
     sudo \
