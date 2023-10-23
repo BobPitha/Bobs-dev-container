@@ -5,7 +5,7 @@ VERSION_LONG := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse HEAD ; els
 
 DOCKER_ROOT_IMAGE := ubuntu:focal
 ORGANIZATION := ma
-PROJECT := bobsdevcontainer
+PROJECT := ros1noetic
 DOCKER_IMAGE_TAG_ROOT := ${ORGANIZATION}/${PROJECT}_img
 DOCKER_CONTAINER_NAME_ROOT := ${PROJECT}
 SERVER_USER := ma

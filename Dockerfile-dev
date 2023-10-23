@@ -71,6 +71,18 @@ COPY ./docker/assets/dev/user /home/${SERVER_USER}
 RUN mkdir /home/${SERVER_USER}/bin \
     && echo "PATH=/home/go/bin:${PATH}" >> /home/${SERVER_USER}/.bashrc
 
+# ------------------------------------------------------  
+# ROS  
+# ------------------------------------------------------  
+RUN echo "source /opt/ros/noetic/setup.bash" >> /home/${SERVER_USER}/.bashrc \  
+    && apt-get update \  
+    && apt-get install -y --no-install-recommends \  
+        python3-rosdep \  
+        python3-rosinstall \  
+        python3-rosinstall-generator \  
+        python3-wstool \  
+        build-essential 
+
 ## development tools: comment/uncomment as appropriate
 ##
 # ------------------------------------------------------

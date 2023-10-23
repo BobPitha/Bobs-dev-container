@@ -3,11 +3,12 @@
 ## Overwiew
 This repository contains a Docker-based development and deployment environment intended to be configured for
 personal or project-specific needs. It's designed to offer a consistent development environment that can be
-easily shared, replicated, and reconfigured across different setups.
+easily shared, replicated, and reconfigured across different setups. This container provides a basic ROS 1
+Noetic environment.
 
 ## Specifications:
 * **Base OS**: Ubuntu 20.04 Focal
-* **ROS**: not included
+* **ROS**: Noetic
 * **Special features**: none
 
 ## Intro
