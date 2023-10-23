@@ -6,7 +6,7 @@ personal or project-specific needs. It's designed to offer a consistent developm
 easily shared, replicated, and reconfigured across different setups.
 
 ## Specifications:
-* **Base OS**: Ubuntu 20.04 Focal
+* **Base OS**: Ubuntu 22.04 Jammy
 * **ROS**: not included
 * **Special features**: none
 

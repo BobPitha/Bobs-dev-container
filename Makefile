@@ -3,9 +3,9 @@ REPOSITORY_ROOT := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse --show-
 VERSION := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse --short HEAD ; else echo x ; fi )
 VERSION_LONG := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse HEAD ; else echo xxx ; fi )
 
-DOCKER_ROOT_IMAGE := ubuntu:focal
+DOCKER_ROOT_IMAGE := ubuntu:jammy
 ORGANIZATION := ma
-PROJECT := bobsdevcontainer
+PROJECT := bdc-jammy
 DOCKER_IMAGE_TAG_ROOT := ${ORGANIZATION}/${PROJECT}_img
 DOCKER_CONTAINER_NAME_ROOT := ${PROJECT}
 SERVER_USER := ma
