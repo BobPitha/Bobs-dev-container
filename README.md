@@ -1,4 +1,4 @@
-# Bobs-dev-container
+# ROS 1 Noetic container
 
 ## Overwiew
 This repository contains a Docker-based development and deployment environment intended to be configured for
