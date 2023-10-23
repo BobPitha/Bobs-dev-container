@@ -1,15 +1,15 @@
-# ROS 1 Noetic container
+# RX-200 (ROS 1) container
 
 ## Overwiew
 This repository contains a Docker-based development and deployment environment intended to be configured for
 personal or project-specific needs. It's designed to offer a consistent development environment that can be
 easily shared, replicated, and reconfigured across different setups. This container provides a basic ROS 1
-Noetic environment.
+Noetic environment with the Interbotix software for the Trossen RX-200 arm.
 
 ## Specifications:
 * **Base OS**: Ubuntu 20.04 Focal
 * **ROS**: Noetic
-* **Special features**: none
+* **Special features**: Interbotix RX-200 software
 
 ## Intro
 This development/deployment environment is one I've used for various past projects. It is a modified version
