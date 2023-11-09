@@ -45,6 +45,15 @@ RUN mkdir /opt >/dev/null 2>&1 || true \
     && echo "${SERVER_USER}:${SERVER_USER}" | chpasswd
 WORKDIR /opt
 
+RUN mkdir /home/${SERVER_USER}/rti
+COPY ./rti/rti_connext_dds-6.1.2-pro-host-x64Linux.run \
+    ./rti/rti_connext_dds-6.1.2-pro-target-x64Linux4gcc7.3.0.rtipkg \
+    ./rti/rti_license.dat \
+    ./rti/connextdds-py.zip /home/${SERVER_USER}/rti/
+RUN /home/${SERVER_USER}/rti/rti_connext_dds-6.1.2-pro-host-x64Linux.run --mode unattended --disable_copy_examples false\
+    && /opt/rti_connext_dds-6.1.2/bin/rtipkginstall -u /home/${SERVER_USER}/rti/rti_connext_dds-6.1.2-pro-target-x64Linux4gcc7.3.0.rtipkg \
+    && cp /home/${SERVER_USER}/rti/rti_license.dat /opt/rti_connext_dds-6.1.2
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         debconf-utils

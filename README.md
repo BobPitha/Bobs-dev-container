@@ -1,4 +1,4 @@
-# Bobs-dev-container
+# Bobs-dev-container - bdc-jammy-rti
 
 ## Overwiew
 This repository contains a Docker-based development and deployment environment intended to be configured for
@@ -8,7 +8,7 @@ easily shared, replicated, and reconfigured across different setups.
 ## Specifications:
 * **Base OS**: Ubuntu 22.04 Jammy
 * **ROS**: not included
-* **Special features**: none
+* **Special features**: RTI developer tools
 
 ## Intro
 This development/deployment environment is one I've used for various past projects. It is a modified version
@@ -29,6 +29,15 @@ The workspace folder will be mounted in the container as `/workspace`, and each 
 
 ## Usage
 
+For this branch of the docker IDE container to build correctly, you need to get the following files:, and put them in a subfolder of this repo named rti/ :
+* connextdds-py.zip (this is a backup of an old verion of the RTI Python API library)
+* rti_connext_dds-6.1.2-pro-host-x64Linux.run (Download from RTI)
+* rti_connext_dds-6.1.2-pro-target-x64Linux4gcc7.3.0.rtipkg (ditto)
+* rti_license.dat (ditto again)
+
+You'll need an RTI license to get rti_license.dat (I hope that's obvious). If you need other target packages, you'll have to edit the dockerfile (Dockerfile-base) to add them.
+
+
 Most interaction is via **make**. The most important commands:
 
 * `make dev` - (default) builds the development image.
@@ -44,6 +53,7 @@ If you create a file named `.bashrc_dev`, it will be appended to the .bashrc in 
 ## Dependencies
 * Docker (obviously)
 * make
+* RTI
 * probably other things TBD.
 
 Whilst this is obviously a work in progress, it's very useable as it is now.

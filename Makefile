@@ -5,7 +5,7 @@ VERSION_LONG := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse HEAD ; els
 
 DOCKER_ROOT_IMAGE := ubuntu:jammy
 ORGANIZATION := ma
-PROJECT := bdc-jammy
+PROJECT := bdc-jammy-rti
 DOCKER_IMAGE_TAG_ROOT := ${ORGANIZATION}/${PROJECT}_img
 DOCKER_CONTAINER_NAME_ROOT := ${PROJECT}
 SERVER_USER := ma
