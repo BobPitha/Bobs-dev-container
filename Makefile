@@ -17,7 +17,7 @@ WORKSPACE_PATH := ${REPOSITORY_ROOT}/workspace
 build: dev
 
 base:
-	bin/banner Docker *BASE* build ${DOCKER_IMAGE_TAG_ROOT}:v{VERSION}
+	bin/banner Docker *BASE* build ${DOCKER_IMAGE_TAG_ROOT}:v${VERSION}
 	docker build \
 	    --network=host \
         -t ${DOCKER_IMAGE_TAG_ROOT}-base:v${VERSION} \
@@ -27,7 +27,7 @@ base:
         ${CACHE_OPTION} -f Dockerfile-base .
 
 dev: base
-	bin/banner Docker *DEVELOPMENT* build ${DOCKER_IMAGE_TAG_ROOT}:v{VERSION}
+	bin/banner Docker *DEVELOPMENT* build ${DOCKER_IMAGE_TAG_ROOT}:v${VERSION}
 	docker build \
 	 	--network=host \
         -t ${DOCKER_IMAGE_TAG_ROOT}-dev:v${VERSION} \
