@@ -30,8 +30,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # user setup
 ARG SERVER_USER
-COPY ./docker/assets/dev/user/.bashrc /home/${SERVER_USER}/.bashrc
-RUN chown ${SERVER_USER}:${SERVER_USER} /home/${SERVER_USER}/.bashrc
+COPY ./docker/assets/dev/user /home/${SERVER_USER}
+RUN mkdir /home/${SERVER_USER}/bin \
+    && echo "PATH=/home/${SERVER_USER}/bin:${PATH}" >> /home/${SERVER_USER}/.bashrc
 
 # system scripts setup
 RUN chmod 755 /sbin/docker-* \
@@ -51,11 +52,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     meld \
     netcat \
     nano \
-    sudo \
-    unzip
+    sudo
 
 # Configure sudo for dev user
-ARG SERVER_USER
 RUN usermod -a -G sudo ${SERVER_USER}
 
 # setup .bashrc to source .bashrc_dev if available
@@ -69,11 +68,6 @@ RUN sed -i "6iexport SERVER_USER=\"${SERVER_USER}\"\nexport SERVER_GROUP=\"${SER
 # workspace setup
 RUN mkdir -p /workspace && \
     chown ${SERVER_USER}:${SERVER_USER} /workspace
-
-# home dir setup
-COPY ./docker/assets/dev/user /home/${SERVER_USER}
-RUN mkdir /home/${SERVER_USER}/bin \
-    && echo "PATH=/home/go/bin:${PATH}" >> /home/${SERVER_USER}/.bashrc
 
 ## development tools: comment/uncomment as appropriate
 ##
