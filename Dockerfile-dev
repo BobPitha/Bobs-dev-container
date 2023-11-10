@@ -39,8 +39,7 @@ RUN chmod 755 /sbin/docker-* \
     && sed -i "6i# Dockerfile-dev\nexport SERVER_USER=\"${SERVER_USER}\"\nexport SERVER_GROUP=\"${SERVER_USER}\"" /sbin/docker-start-container.sh
 
 # Some remaining RTI setup for interactive shells
-RUN echo 'NDDSHOME=/opt/rti_connext_dds-6.1.2/' >> /home/${SERVER_USER}/.bashrc \
-    && echo 'PATH=${NDDSHOME}/bin:${PATH}' >> /home/${SERVER_USER}/.bashrc
+RUN echo "source /opt/rti_connext_dds-6.1.2/resource/scripts/rtisetenv_x64Linux4gcc7.3.0.bash" >> /home/${SERVER_USER}/.bashrc
 
 # ------------------------------------------------------
 # Basic developer system setup
@@ -56,8 +55,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     meld \
     netcat \
     nano \
-    sudo \
-    unzip
+    sudo
 
 # Configure sudo for dev user
 RUN usermod -a -G sudo ${SERVER_USER}
