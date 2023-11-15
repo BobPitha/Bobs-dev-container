@@ -30,13 +30,23 @@ The workspace folder will be mounted in the container as `/workspace`, and each 
 ## Usage
 
 For this branch of the docker IDE container to build correctly, you need to get the following files:, and put them in a subfolder of this repo named rti/ :
-* connextdds-py.zip (this is a backup of an old verion of the RTI Python API library)
 * rti_connext_dds-6.1.2-pro-host-x64Linux.run (Download from RTI)
 * rti_connext_dds-6.1.2-pro-target-x64Linux4gcc7.3.0.rtipkg (ditto)
 * rti_license.dat (ditto again)
 
+Optionally, you can also include:
+* connextdds-py.zip (this is a backup of an old verion of the RTI Python API library)
+
 You'll need an RTI license to get rti_license.dat (I hope that's obvious). If you need other target packages, you'll have to edit the dockerfile (Dockerfile-base) to add them.
 
+If you include connextdds-py.zip, you can set that up by opening the shell, and typing:\
+`ma@bdc-jammy-rti:~$` **`setup_py_dds.sh`**</span>\
+Then go get some coffee, it takes a while.
+
+Once you've set up the DDS Python API as above, you can run the dds emulater if you've included the repo it's in. Run it like this:
+
+`ma@bdc-jammy-rti:~$` **`cd /workspace/source/src/dds-emulator/test/pyGui/`** \
+`ma@bdc-jammy-rti:/workspace/source/src/dds-emulator/test/pyGui$` **`python3 dds_emulator.py`**
 
 Most interaction is via **make**. The most important commands:
 
