@@ -48,7 +48,7 @@ WORKDIR /opt
 RUN mkdir /home/${SERVER_USER}/rti
 COPY ./rti /home/${SERVER_USER}/rti
 RUN /home/${SERVER_USER}/rti/rti_connext_dds-6.1.2-pro-host-x64Linux.run --mode unattended --disable_copy_examples false\
-    && /opt/rti_connext_dds-6.1.2/bin/rtipkginstall -u /home/${SERVER_USER}/rti/rti_connext_dds-6.1.2-pro-target-x64Linux4gcc7.3.0.rtipkg \
+    && for pkgfile in /home/${SERVER_USER}/rti/*.rtipkg ; do /opt/rti_connext_dds-6.1.2/bin/rtipkginstall -u ${pkgfile} ; done \
     && cp /home/${SERVER_USER}/rti/rti_license.dat /opt/rti_connext_dds-6.1.2 \
     && chown -R ${SERVER_USER}:${SERVER_USER} /opt/rti_connext_dds-6.1.2
 
