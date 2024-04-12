@@ -27,7 +27,6 @@ RUN apt-get update \
         libxkbcommon0 \
         libgbm1 \
         libsdl2-dev \
-        libsdl2-dev-gtk \
         libssl-dev \
         libtool \
         make \

@@ -11,6 +11,7 @@ DOCKER_CONTAINER_NAME_ROOT := ${PROJECT}
 SERVER_USER := ma
 DOCKER_RUN_USER_ARGS := ${DOCKER_RUN_USER_ARGS} $\
 			--volume=${REPOSITORY_ROOT}/shell_state/Code:/home/${SERVER_USER}/.config/Code $\
+			--volume=${REPOSITORY_ROOT}/shell_state/vscode:/home/${SERVER_USER}/.vscode $\
 			--volume=${HOME}/.ssh:/home/${SERVER_USER}/.ssh
 WORKSPACE_PATH := ${REPOSITORY_ROOT}/workspace
 
