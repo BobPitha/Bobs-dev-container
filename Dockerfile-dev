@@ -138,11 +138,14 @@ RUN if [ ! -f  /home/${SERVER_USER}/.config/Code/User/settings.json ]; then \
 # RTI
 # ------------------------------------------
 ADD rti/connextdds-py.zip /home/${SERVER_USER}/
-# RUN unzip /home/${SERVER_USER}/connextdds-py.zip -d /home/${SERVER_USER} \
-#     && pip install pysimplegui \
-#     && cd /home/${SERVER_USER}/connextdds-py/ \
-#     && python3 configure.py --nddshome /opt/rti_connext_dds-6.1.2 --jobs 4 x64Linux4gcc7.3.0 \
-#     && pip install .
+RUN unzip /home/${SERVER_USER}/connextdds-py.zip -d /home/${SERVER_USER} \
+    && pip install pysimplegui \
+    && cd /home/${SERVER_USER}/connextdds-py/ \
+    && python3 configure.py --nddshome /opt/rti_connext_dds-6.1.2 --jobs 4 x64Linux4gcc7.3.0 \
+    && pip install .
+RUN echo 'PATH=${NDDSHOME}/third_party/openssl-3.0.11/x64Linux4gcc7.3.0/release/bin:${PATH}\n\
+LD_LIBRARY_PATH=${NDDSHOME}/third_party/openssl-3.0.11/x64Linux4gcc7.3.0/release/lib:${LD_LIBRARY_PATH}'\
+                >> /home/${SERVER_USER}/.bashrc
 
 COPY bashrc_include* /home/${SERVER_USER}
 RUN for incfile in /home/${SERVER_USER}/bashrc_include* ; do if [ -f ${incfile} ] ; then cat ${incfile} >> /home/${SERVER_USER}/.bashrc ; fi; done
