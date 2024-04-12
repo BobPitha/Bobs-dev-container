@@ -138,7 +138,7 @@ RUN if [ ! -f  /home/${SERVER_USER}/.config/Code/User/settings.json ]; then \
 # RTI
 # ------------------------------------------
 ADD rti/connextdds-py.zip /home/${SERVER_USER}/
-RUN unzip /home/${SERVER_USER}/connextdds-py.zip -d /home/${SERVER_USER} \
+RUN git clone -b develop -- https://github.com/rticommunity/connextdds-py.git /home/${SERVER_USER}/connextdds-py \
     && pip install pysimplegui \
     && cd /home/${SERVER_USER}/connextdds-py/ \
     && python3 configure.py --nddshome /opt/rti_connext_dds-6.1.2 --jobs 4 x64Linux4gcc7.3.0 \
