@@ -141,10 +141,13 @@ RUN if [ ! -f  /home/${SERVER_USER}/.config/Code/User/settings.json ]; then \
 # ------------------------------------------
 ADD rti/connextdds-py.zip /home/${SERVER_USER}/
 RUN git clone -b develop -- https://github.com/rticommunity/connextdds-py.git /home/${SERVER_USER}/connextdds-py \
-    && pip install pysimplegui \
-    && cd /home/${SERVER_USER}/connextdds-py/ \
-    && python3 configure.py --nddshome /opt/rti_connext_dds-6.1.2 --jobs 4 x64Linux4gcc7.3.0 \
-    && pip install .
+    && pip install \
+        pysimplegui \
+        /home/${SERVER_USER}/rti/rti-0.1.5-cp310-cp310-linux_x86_64.whl
+
+    # && cd /home/${SERVER_USER}/connextdds-py/ \
+    # && python3 configure.py --nddshome /opt/rti_connext_dds-6.1.2 --jobs 4 x64Linux4gcc7.3.0 \
+    # && pip install .
 RUN echo 'PATH=${NDDSHOME}/third_party/openssl-3.0.11/x64Linux4gcc7.3.0/release/bin:${PATH}\n\
 LD_LIBRARY_PATH=${NDDSHOME}/third_party/openssl-3.0.11/x64Linux4gcc7.3.0/release/lib:${LD_LIBRARY_PATH}'\
                 >> /home/${SERVER_USER}/.bashrc

@@ -59,7 +59,7 @@ RUN /home/${SERVER_USER}/rti/rti_connext_dds-6.1.2-pro-host-x64Linux.run --mode 
     && chown -R ${SERVER_USER}:${SERVER_USER} /opt/rti_connext_dds-6.1.2
 
 RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz \
-    tar xzf boost_1_82_0.tar/gz -C /usr/local
+    && tar xzf boost_1_82_0.tar.gz -C /usr/local
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
