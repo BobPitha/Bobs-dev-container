@@ -1,2 +1,0 @@
-alias wsmsp="cd /workspace/kukarobotics/src/Msp"
-alias wsdds="cd /workspace/kukarobotics/src/dds-emulator/test/pyGui"

@@ -27,6 +27,9 @@ RUN apt-get update \
         libxkbcommon0 \
         libgbm1 \
         libsdl2-dev \
+        libsdl2-image-dev \
+        libsdl2-mixer-dev \
+        libsdl2-ttf-dev \
         libssl-dev \
         libtool \
         make \
@@ -54,6 +57,9 @@ RUN /home/${SERVER_USER}/rti/rti_connext_dds-6.1.2-pro-host-x64Linux.run --mode 
     && for pkgfile in /home/${SERVER_USER}/rti/*.rtipkg ; do /opt/rti_connext_dds-6.1.2/bin/rtipkginstall -u ${pkgfile} ; done \
     && cp /home/${SERVER_USER}/rti/rti_license.dat /opt/rti_connext_dds-6.1.2 \
     && chown -R ${SERVER_USER}:${SERVER_USER} /opt/rti_connext_dds-6.1.2
+
+RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz \
+    tar xzf boost_1_82_0.tar/gz -C /usr/local
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
