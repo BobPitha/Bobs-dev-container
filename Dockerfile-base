@@ -1,5 +1,8 @@
-ARG FROM_IMAGE
+ARG FROM_IMAGE=ubuntu:focal
 FROM ${FROM_IMAGE}
+RUN echo "Using base image: ${FROM_IMAGE}"
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # install basic system packages
 ARG SERVER_USER
@@ -8,12 +11,9 @@ RUN chmod 755 /sbin/docker-*
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        apt-utils \
         apt \
-        software-properties-common
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        apt-utils \
         autoconf \
         automake \
         build-essential \
@@ -30,18 +30,17 @@ RUN apt-get update \
         net-tools \
         pkg-config \
         perl \
+        software-properties-common \
         ssh \
-        systemd \
-        systemd-sysv \
         wget
 
 ENV TZ=America/New_York
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get update && apt-get install -y --no-install-recommends tzdata
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && apt-get update && apt-get install -y --no-install-recommends tzdata
 
 # Setup the server user
 RUN mkdir /opt >/dev/null 2>&1 || true \
-    && useradd -m ${SERVER_USER} -G dialout,video,plugdev -p ${SERVER_USER} -s /bin/bash \
+    && useradd -m ${SERVER_USER} -G dialout,video,plugdev -s /bin/bash \
     && echo "${SERVER_USER}:${SERVER_USER}" | chpasswd
 WORKDIR /opt
 
@@ -56,4 +55,4 @@ RUN debconf-set-selections < /opt/selections.conf \
 # clean up
 RUN apt-get -y autoremove \
     && apt-get clean autoclean \
-    && rm -fr /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

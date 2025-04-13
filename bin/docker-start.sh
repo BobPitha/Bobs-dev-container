@@ -68,7 +68,7 @@ if [[ -z "${running_container_id}" ]]; then
     readonly XSOCK=/tmp/.X11-unix
     readonly XAUTH=$(mktemp /tmp/.docker.xauth.XXXXX)
     touch $XAUTH
-    xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $SAUTH nmerge -
+    xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
 
     if [[ -z $(docker network ls --filter NAME=${DOCKER_COMPOSE_NETWORK} -q) ]]; then
         echo "Starting ${DOCKER_COMPOSE_NETWORK} network"

@@ -4,11 +4,11 @@ VERSION := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse --short HEAD ; 
 VERSION_LONG := $$( if [ ${IS_GIT_DIR} = "yes" ] ; then git rev-parse HEAD ; else echo xxx ; fi )
 
 DOCKER_ROOT_IMAGE := ubuntu:focal
-ORGANIZATION := ma
-PROJECT := bobsdevcontainer
+ORGANIZATION := bob
+PROJECT := bobsnutritionjournal
 DOCKER_IMAGE_TAG_ROOT := ${ORGANIZATION}/${PROJECT}_img
 DOCKER_CONTAINER_NAME_ROOT := ${PROJECT}
-SERVER_USER := ma
+SERVER_USER := bob
 DOCKER_RUN_USER_ARGS := ${DOCKER_RUN_USER_ARGS} $\
 			--volume=${REPOSITORY_ROOT}/shell_state/Code:/home/${SERVER_USER}/.config/Code $\
 			--volume=${HOME}/.ssh:/home/${SERVER_USER}/.ssh

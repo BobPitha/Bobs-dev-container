@@ -3,11 +3,12 @@ FROM ${FROM_IMAGE}
 
 WORKDIR /opt
 
-RUN yes | unminimize
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         coinor-libclp-dev \
         feh \
+        gpg \
         influxdb-client \
         less \
         libcanberra-gtk-module \
@@ -93,17 +94,45 @@ RUN if [ "$PP_DEV_USE_VIM" = "true" ]; then \
 # ------------------------------------------------------
 # VS Code
 # ------------------------------------------------------
-RUN wget -q https://packages.microsoft.com/keys/microsoft.asc -O - \
-    | apt-key add -
-RUN add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends code
+# RUN wget -q https://packages.microsoft.com/keys/microsoft.asc -O - \
+#     | apt-key add -
+# RUN add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+# RUN apt-get update \
+#     && apt-get install -y --no-install-recommends code
+# RUN echo "export DONT_PROMPT_WSL_INSTALL=1" >> /home/${SERVER_USER}/.bashrc
+# # Get rid of the annoying WSL message, and pick a theme that makes sessions distinct.
+# RUN if [ ! -f  /home/${SERVER_USER}/.config/Code/User/settings.json ]; then \
+#     mkdir -p /home/${SERVER_USER}/.config/Code/User \
+#     && echo '{\n    "workbench.colorTheme": "Abyss"\n}' > /home/${SERVER_USER}/.config/Code/User/settings.json ; \
+#     fi
+RUN apt-get update && apt-get install -y wget gpg
+
+# Add Microsoft GPG key and repo
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" \
+    > /etc/apt/sources.list.d/vscode.list
+
+RUN apt-get update && apt-get install -y --no-install-recommends code
+
+# Suppress WSL message
 RUN echo "export DONT_PROMPT_WSL_INSTALL=1" >> /home/${SERVER_USER}/.bashrc
-# Get rid of the annoying WSL message, and pick a theme that makes sessions distinct.
-RUN if [ ! -f  /home/${SERVER_USER}/.config/Code/User/settings.json ]; then \
-    mkdir -p /home/${SERVER_USER}/.config/Code/User \
-    && echo '{\n    "workbench.colorTheme": "Abyss"\n}' > /home/${SERVER_USER}/.config/Code/User/settings.json ; \
-    fi
+
+# Set VS Code theme
+RUN mkdir -p /home/${SERVER_USER}/.config/Code/User && \
+    echo '{\n  "workbench.colorTheme": "Abyss"\n}' > /home/${SERVER_USER}/.config/Code/User/settings.json && \
+    chown -R ${SERVER_USER}:${SERVER_USER} /home/${SERVER_USER}/.config
+
+
+# RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+#     | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+# RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" \
+#     > /etc/apt/sources.list.d/vscode.list
+# RUN apt-get update \
+#     && apt-get install -y --no-install-recommends code
+# RUN mkdir -p /home/${SERVER_USER}/.config/Code/User && \
+#     echo '{' > /home/${SERVER_USER}/.config/Code/User/settings.json && \
+#     echo '  "workbench.colorTheme": "Abyss"' >> /home/${SERVER_USER}/.config/Code/User/settings.json && \
+#     echo '}' >> /home/${SERVER_USER}/.config/Code/User/settings.json
 
 ##------------------------------------------------------
 ## IntelliJ IDEA
@@ -132,13 +161,14 @@ RUN if [ ! -f  /home/${SERVER_USER}/.config/Code/User/settings.json ]; then \
 # RUN su - go -c "/opt/Anaconda3-2022.05-Linux-x86_64.sh -b"
 
 COPY bashrc_include* /home/${SERVER_USER}
-RUN for incfile in /home/${SERVER_USER}/bashrc_include* ; do if [ -f ${incfile} ] ; then cat ${incfile} >> /home/${SERVER_USER}/.bashrc ; fi; done
+RUN bash -c 'shopt -s nullglob && cat /home/${SERVER_USER}/bashrc_include* >> /home/${SERVER_USER}/.bashrc || true'
+# RUN cat /home/${SERVER_USER}/bashrc_include* >> /home/${SERVER_USER}/.bashrc
 
-RUN chown ${SERVER_USER}:${SERVER_USER} /home/${SERVER_USER}/.* /home/${SERVER_USER}/*
+RUN chown -R ${SERVER_USER}:${SERVER_USER} /home/${SERVER_USER}
 
 # clean up
 RUN apt-get -y autoremove \
     && apt-get clean autoclean \
-    && rm -fr /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENTRYPOINT ["/sbin/docker-start-container.sh"]

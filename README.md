@@ -20,6 +20,13 @@ the foundation for both a development and a production container. The base image
 dependencies for the project; the development image will add interactive tools and applications needed to
 supply a development environment.
 
+## System Configuration
+In order to successfully set up and run this container, you will need:
+* docker: make sure the docker engine is installed and configured to run without needing sudo on your system.
+* xauth
+* Ensure that xhost allows local connections:
+    `$ xhost +local:docker`
+
 ## Project Integration
 To include a project:
 1. Create a subfolder named `workspace/`
